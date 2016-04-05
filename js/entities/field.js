@@ -13,51 +13,60 @@ class Field extends GameComponent {
     this._gameRows = this._initGameRows();
     this._bases = this._initBases();
 
-    this._deck = new Deck({
+    this._deckHolder = new Deck({
       id: 'deck',
       selector: 'deck',
       parentDOM: this._DOM,
-      deck: DeckHandler.getCardsForDeck(24,this._globalDeck)
+      deck: DeckHandler.getCardsForDeck(24, this._globalDeck)
     });
 
-    this._openedDeck = new Deck({
+    this._openedDeckHolder = new Deck({
       id: 'opened-deck',
       selector: 'opened-deck',
       parentDOM: this._DOM,
-      deck: DeckHandler.getCardsForDeck(0,this._globalDeck)
+      deck: DeckHandler.getCardsForDeck(0, this._globalDeck)
     });
 
-    //listeners
-    this._deck.getDOM().addEventListener('deckClicked', this._onDeckClicked.bind(this));
-    this._deck.getDOM().addEventListener('deckMousedown', this._onDeckMousedown.bind(this));
+    this._deckHolder.getDOM().addEventListener('deckClicked', this.onDeckClicked.bind(this));
+    this._addEventListenersForCardHolders('cardDnD', this.onCardDnD);
 
   }
 
+  getDeckHolder() {
+    return this._deckHolder;
+  }
 
-  _onDeckClicked(event) {
-    let card = event.detail;
+  getOpenedDeckHolder() {
+    return this._openedDeckHolder;
+  }
 
-    if(card === null || card === undefined) {
-      this._deck.setDeck(this._openedDeck.getDeck());
-      this._openedDeck.setDeck([]);
+  addEventListenerForCardHolder(eventName, eventHandlerFun,cardHolder) {
+    cardHolder.getDOM().addEventListener(eventName, eventHandlerFun.bind(this));
+  }
 
-      RenderHandler.removeDOM(this._openedDeck);
-      this._openedDeck.setDOM(RenderHandler.renderDeck(this._openedDeck));
-      RenderHandler.renderCards(this._deck);
-    } else {
-
-      this._openedDeck.getDeck().push(card);
-      card.setParentDOM(this._openedDeck.getDOM());
-
-      RenderHandler.removeDOM(card);
-      card.setDOM(RenderHandler.renderCard(card));
-      card.flipCard();
+  _addEventListenersForCardHolders(eventName, eventHandlerFun) {
+    for (let i = 0; i < 7; i++) {
+      this.addEventListenerForCardHolder(eventName, eventHandlerFun,this._gameRows[i]);
     }
+    for (let i = 0; i < 4; i++) {
+      this.addEventListenerForCardHolder(eventName, eventHandlerFun,this._bases[i]);
+    }
+    this.addEventListenerForCardHolder(eventName, eventHandlerFun,this._openedDeckHolder);
   }
 
-  _onDeckMousedown(event) {
-    let options = event.detail;
+  onDeckClicked(event) {
+    let options = {};
+    options.card = event.detail;
+    options.parentObj = this;
 
+    DeckClickHandler.deckClick(options);
+  }
+
+  onCardDnD(event) {
+    let options = event.detail;
+    options.parentObj = this;
+    options.event = event;
+    DragHandler.drangAndDrop(options);
   }
 
   _initBases() {
@@ -75,6 +84,7 @@ class Field extends GameComponent {
 
     return bases;
   }
+
   _initGameRows() {
     let gameRows = [];
 
@@ -90,7 +100,6 @@ class Field extends GameComponent {
 
     return gameRows;
   }
-
 
 
 }

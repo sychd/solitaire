@@ -5,11 +5,9 @@
 class Deck extends DeckHolderComponent {
   constructor(options) {
     super(options);
-    this._DOM = RenderHandler.renderDeck(this);
     RenderHandler.renderCards(this);
 
     this._DOM.addEventListener('click',this._onDeckClick.bind(this));
-    this._DOM.addEventListener('mousedown', this._onDeckMousedown.bind(this));
   }
 
   _onDeckClick(event) {
@@ -31,12 +29,5 @@ class Deck extends DeckHolderComponent {
     this._DOM.dispatchEvent(event);
   }
 
-  _onDeckMousedown() {
-    let openedDeck = event.target.closest('[data-selector="opened-deck"]');
-
-    if(!openedDeck) {
-      return;
-    }
-  }
 }
 

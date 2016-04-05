@@ -5,7 +5,7 @@ class Base extends DeckHolderComponent {
   constructor(options) {
     super(options);
     this._isFull = false;
-    this._DOM = RenderHandler.renderBase(this);
+    //this._DOM = RenderHandler.renderBase(this);
   }
 
 }

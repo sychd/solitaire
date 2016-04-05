@@ -36,6 +36,7 @@ class GameComponent {
   setDOM(p) {
     this._DOM = p;
   }
+
 }
 
 var DECK_SIZE = 52,

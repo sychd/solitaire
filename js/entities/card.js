@@ -20,4 +20,8 @@ class Card extends GameComponent {
     this._isFlipped = true;
   }
 
+  getCardHolderByDOM(DOM) {
+    return
+  }
+
 }

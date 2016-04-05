@@ -27,6 +27,18 @@ class RenderHandler extends GameComponent {
     return GameComponent.renderElement("field",obj.getParentDOM());
   }
 
+  static renderCardHolder(obj) {
+    let result;
+    if(obj instanceof Deck) {
+      result =  RenderHandler.renderDeck(obj);
+    } else if(obj instanceof  GameRow) {
+      result = RenderHandler.renderGameRow(obj);
+    } else if(obj instanceof  Base) {
+      result = RenderHandler.renderBase(obj);
+    }
+
+    return result;
+  }
   static renderBase(obj) {
     let base = GameComponent.renderElement('base', obj.getParentDOM());
     base.id = obj.getNumber() + 'base';
