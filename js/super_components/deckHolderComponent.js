@@ -10,7 +10,7 @@ class DeckHolderComponent extends GameComponent{
     this._number = options.number;//gameRow
     this._DOM = RenderHandler.renderCardHolder(this);
 
-    this._DOM.addEventListener('mousedown',this._onGameHolderMousedown.bind(this));
+    this._DOM.addEventListener('mousedown',this.onGameHolderMousedown.bind(this));
   }
 
   getNumber() {
@@ -40,7 +40,7 @@ class DeckHolderComponent extends GameComponent{
     }
   }
 
-  _onGameHolderMousedown(event) {
+  onGameHolderMousedown(event) {
 
     if (event.target.closest('[data-selector="deck"]') ||
         event.target.closest('[data-selector="base"]')) {//no drag for deck and bases

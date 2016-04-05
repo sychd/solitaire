@@ -40,6 +40,22 @@ class Field extends GameComponent {
     return this._openedDeckHolder;
   }
 
+  getGameRows() {
+    return this._gameRows;
+  }
+
+  getGameRowByNumber(i) {
+    return this._gameRows[i];
+  }
+
+  getBases() {
+    return this._bases;
+  }
+
+  getBaseByNumber(i) {
+    return this._bases[i];
+  }
+
   addEventListenerForCardHolder(eventName, eventHandlerFun,cardHolder) {
     cardHolder.getDOM().addEventListener(eventName, eventHandlerFun.bind(this));
   }

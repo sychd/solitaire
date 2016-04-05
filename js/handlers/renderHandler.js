@@ -16,29 +16,32 @@ class RenderHandler extends GameComponent {
 
     return card;
   }
+
   static renderDeck(obj) {
-    if(obj.getId() === 'deck') {
-      return GameComponent.renderElement("deck",obj.getParentDOM());
+    if (obj.getId() === 'deck') {
+      return GameComponent.renderElement("deck", obj.getParentDOM());
     } else {
-      return GameComponent.renderElement("opened-deck",obj.getParentDOM());
+      return GameComponent.renderElement("opened-deck", obj.getParentDOM());
     }
   }
-  static renderField(obj){
-    return GameComponent.renderElement("field",obj.getParentDOM());
+
+  static renderField(obj) {
+    return GameComponent.renderElement("field", obj.getParentDOM());
   }
 
   static renderCardHolder(obj) {
     let result;
-    if(obj instanceof Deck) {
-      result =  RenderHandler.renderDeck(obj);
-    } else if(obj instanceof  GameRow) {
+    if (obj instanceof Deck) {
+      result = RenderHandler.renderDeck(obj);
+    } else if (obj instanceof GameRow) {
       result = RenderHandler.renderGameRow(obj);
-    } else if(obj instanceof  Base) {
+    } else if (obj instanceof Base) {
       result = RenderHandler.renderBase(obj);
     }
 
     return result;
   }
+
   static renderBase(obj) {
     let base = GameComponent.renderElement('base', obj.getParentDOM());
     base.id = obj.getNumber() + 'base';
@@ -59,17 +62,16 @@ class RenderHandler extends GameComponent {
 
   static renderCards(obj) {
     let margin = 15;
-    if(obj instanceof Deck){
+    if (obj instanceof Deck || obj instanceof Base) {
       margin = 0;
     }
-    for(let i = 0; i < obj.getDeck().length; i++) {
+    for (let i = 0; i < obj.getDeck().length; i++) {
       obj.getDeck()[i].setParentDOM(obj.getDOM());
-      obj.getDeck()[i].setDOM(RenderHandler.renderCard(obj.getDeck()[i],i * margin));
+      obj.getDeck()[i].setDOM(RenderHandler.renderCard(obj.getDeck()[i], i * margin));
     }
   }
 
   static removeDOM(obj) {
     obj.getDOM().parentNode.removeChild(obj.getDOM());
   }
-
 }

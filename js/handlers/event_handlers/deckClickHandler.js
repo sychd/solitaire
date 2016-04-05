@@ -5,18 +5,21 @@ class DeckClickHandler {
   static deckClick(options) {
     let card = options.card;
     let field = options.parentObj;
+    let openedDH = field.getOpenedDeckHolder();
 
     if(card === null || card === undefined) {
-      field.getDeckHolder().setDeck(field.getOpenedDeckHolder().getDeck());
-      field.getOpenedDeckHolder().setDeck([]);
+      field.getDeckHolder().setDeck(field.getOpenedDeckHolder().getDeck().reverse());
+      openedDH.setDeck([]);
 
-      RenderHandler.removeDOM(field.getOpenedDeckHolder());
-      field.getOpenedDeckHolder().setDOM(RenderHandler.renderDeck(field.getOpenedDeckHolder()));
+      RenderHandler.removeDOM(openedDH);
+      openedDH.setDOM(RenderHandler.renderDeck(field.getOpenedDeckHolder()));
+      openedDH.getDOM().addEventListener('mousedown', openedDH.onGameHolderMousedown.bind(openedDH));//
+      field.addEventListenerForCardHolder('cardDnD', field.onCardDnD, openedDH);                     //
       RenderHandler.renderCards(field.getDeckHolder());
     } else {
 
-      field.getOpenedDeckHolder().getDeck().push(card);
-      card.setParentDOM(field.getOpenedDeckHolder().getDOM());
+      openedDH.getDeck().push(card);
+      card.setParentDOM(openedDH.getDOM());
 
       RenderHandler.removeDOM(card);
       card.setDOM(RenderHandler.renderCard(card));

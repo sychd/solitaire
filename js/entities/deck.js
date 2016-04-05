@@ -7,10 +7,10 @@ class Deck extends DeckHolderComponent {
     super(options);
     RenderHandler.renderCards(this);
 
-    this._DOM.addEventListener('click',this._onDeckClick.bind(this));
+    this._DOM.addEventListener('click',this.onDeckClick.bind(this));
   }
 
-  _onDeckClick(event) {
+  onDeckClick(event) {
     let deck = event.target.closest('[data-selector="deck"]');
 
     if(!deck) {
