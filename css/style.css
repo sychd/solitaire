@@ -1,0 +1,49 @@
+.field {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    background: url('../img/bg.jpg');
+    cursor: pointer;
+}
+
+.deck, .opened-deck, .game-row,
+.base, .card {
+    position: absolute;
+    background: url('../img/empty_slot.png') 50% no-repeat;
+    background-color: rgba(54, 135, 31, 0.09);
+    background-size: contain;
+    border-radius: 10px;
+    width: 110px;
+    height:160px;
+}
+
+.deck {
+    left: 10px;
+    top: 10px;
+}
+.deck:before {
+    padding-top:50%;
+    content: "click to flip deck";
+    color: #eeeeee;
+}
+
+.opened-deck {
+    left: 130px;
+    top: 10px;
+}
+
+.game-row {
+    bottom: 220px;
+    left:10px;
+}
+
+.base {
+    left:370px;
+    top:10px;
+}
+
+.card {
+    background: url('../img/shirt.png');
+    background-size: contain;
+    z-index: 999;
+}
