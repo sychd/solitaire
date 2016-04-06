@@ -58,8 +58,6 @@ class DragHandler {
   }
 
   static isAvailableDrop(destinationCardHolder, wrapper) {
-    let result = true;
-
     if (destinationCardHolder instanceof Field) {
       return false;
     }
@@ -67,30 +65,45 @@ class DragHandler {
     let destDeck = destinationCardHolder.getDeck();
     let wrapperDeck = wrapper.getDeck();
 
-    if (!isLegalValue(destDeck, wrapperDeck)) {
-      result = false;
-    } else if (!isLegalColor(destDeck, wrapperDeck)) {
-      result = false;
+    let value = false, color = false, suit = true;
+
+    if (isLegalValue(destDeck, wrapperDeck)) {
+      value = true;
+      console.log('value is true');
     }
 
-    if (destinationCardHolder instanceof Base) {
-      result = isLegalSuit(destDeck, wrapperDeck);
+    if (isLegalColor(destDeck, wrapperDeck)) {
+      color = true;
+    } else {
+      if (destinationCardHolder instanceof Base) {
+        color = true;
+      }
     }
 
-    return result;
+    if (destinationCardHolder instanceof Base && color === true) {
+      suit = isLegalSuit(destDeck, wrapperDeck);
+    }
+
+    return value && color && suit;
 
     function isLegalValue(destDeck, wrapperDeck) {
       let result = false;
       if (destDeck.length !== 0) {
-        if (destDeck[destDeck.length - 1].getValue() === (wrapperDeck[0].getValue() + 1)) {
+        let target = destDeck[destDeck.length - 1].getValue();
+        let wrapper = wrapperDeck[0].getValue();
+        if (target === 14 && wrapper === 2) {//2 on ace
           result = true;
-        } else if (destDeck[destDeck.length - 1].getValue() === 14 && wrapperDeck[0].getValue() === 2) {
+        } else if (target === 14 && wrapper === 13) {//king on ace
+          result = false;
+        } else if (target === (wrapper + 1) && destinationCardHolder instanceof GameRow) {
+          result = true;
+        } else if (target === (wrapper - 1) && destinationCardHolder instanceof Base) {
           result = true;
         }
       }
       else {
         if (destinationCardHolder instanceof Base) {
-          result = (wrapperDeck[0].getValue() === 2);
+          result = (wrapperDeck[0].getValue() === 14);
         }
         if (destinationCardHolder instanceof GameRow) {
           result = wrapperDeck[0].getValue() === 13;
@@ -123,6 +136,7 @@ class DragHandler {
       } else {
         result = (wrapperDeck[0].getValue() === 14);
       }
+
       return result;
     }
   }
@@ -130,7 +144,6 @@ class DragHandler {
 
   static dropWrapper(cardHolder, wrapper, field) {
     let wsize = wrapper.getDeck().length;
-    let flipStartIndex = cardHolder.getDeck().length - wsize;
     wrapper.getDeck().reverse();
     for (let i = 0; i < wsize; i++) {
       cardHolder.getDeck().push(wrapper.getDeck().pop());

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Solitaire</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="lib/mocha.css">
     <script src="js/page.js" defer></script>
     <script src="js/super_components/gameComponent.js" defer></script>
     <script src="js/super_components/deckHolderComponent.js" defer></script>
@@ -16,11 +17,20 @@
     <script src="js/handlers/deckHandler.js" defer></script>
     <script src="js/handlers/event_handlers/dragHandler.js" defer></script>
     <script src="js/handlers/event_handlers/deckClickHandler.js" defer></script>
-    <script src="js/app.js" defer></script>
+    <script src="lib/chai.js" defer></script>
+    <script src="lib/mocha.js" defer></script>
+    <script src="js/test.js" defer></script>
 </head>
 <body>
-    <div data-component="page">
-        <div data-component="field-holder"></div>
-    </div>
+<div data-component="page">
+
+    <div data-component="field-holder"></div>
+</div>
+<div style="width:505px; margin:auto;"><div id="mocha"></div></div>
+
+
+<script>
+
+</script>
 </body>
 </html>

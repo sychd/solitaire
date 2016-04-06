@@ -21,6 +21,11 @@
     left: 10px;
     top: 10px;
 }
+.deck:before {
+    padding-top:50%;
+    content: "click to flip deck";
+    color: #eeeeee;
+}
 
 .opened-deck {
     left: 130px;
